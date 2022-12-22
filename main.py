@@ -32,7 +32,6 @@ def gameplay():
     running = True
     clock = pygame.time.Clock()
     current_score = 0
-    world_map = []
     count_cloud = 0
     count_cactus = 0
     speed = SPEED
