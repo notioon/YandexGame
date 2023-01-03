@@ -149,7 +149,7 @@ class MainMenuButton(pygame.sprite.Sprite):
     def __init__(self, *group):
         super().__init__(*group)
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = 385, 300
+        self.rect.x, self.rect.y = 380, 300
 
 
 class Coin(pygame.sprite.Sprite):

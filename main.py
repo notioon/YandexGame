@@ -8,6 +8,11 @@ from random import randrange
 
 pygame.init()
 pygame.font.init()
+JUMP_SOUND = pygame.mixer.Sound('data/assets/jump.wav')
+DIE_SOUND = pygame.mixer.Sound('data/assets/die.wav')
+CHECKPOINT_SOUND = pygame.mixer.Sound('data/assets/checkPoint.wav')
+COINS_SOUND = pygame.mixer.Sound('data/assets/coins.wav')
+
 
 FPS = 60
 SIZE = WIDTH, HEIGHT = 800, 400
@@ -64,6 +69,9 @@ def gameplay():
                 if event.key == pygame.K_UP:
                     if not player.isJumping and not player.isJumping is None and not player.isDucking:
                         player.isJumping = True
+                        if pygame.mixer.get_init() is not None:
+                            JUMP_SOUND.play()
+
                 if event.key == pygame.K_DOWN and not player.isJumping:
                     if not player.isDucking:
                         player.isDucking = True
@@ -95,12 +103,14 @@ def gameplay():
         score(screen, max(HIGH_SCORE, int(str(current_score).split('.')[0])), str(current_score).split('.')[0], count_coins)
 
         if (datetime.now() - time_start).seconds == 10:
+            CHECKPOINT_SOUND.play()
             speed += 0.5
             gravity += 1
             time_start = datetime.now()
         ### Checking collision ###
         for cactus in cactus_sprites:
             if pygame.sprite.collide_mask(player, cactus):
+                DIE_SOUND.play()
                 player_sprite.update(gravity, True)
                 player_sprite.draw(screen)
                 pygame.display.flip()
@@ -108,6 +118,7 @@ def gameplay():
 
         for coin in coins_sprite:
             if pygame.sprite.collide_mask(player, coin):
+                COINS_SOUND.play()
                 count_coins += 1
                 coin.isVisible = False
 
