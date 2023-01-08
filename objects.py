@@ -20,10 +20,10 @@ def cut_sheet(sheet, columns, rows):
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, *group):
+    def __init__(self, color, *group):
         super().__init__(*group)
-        self.frames = cut_sheet(load_image("player_sprite.png"), 3, 1)
-        self.frames_ducking = cut_sheet(load_image("player_ducking_sprite.png"), 2, 1)
+        self.frames = cut_sheet(load_image(f"dinosaurs/player_sprite_{color}.png"), 5, 1)
+        self.frames_ducking = cut_sheet(load_image(f"dinosaurs/player_ducking_sprite_{color}.png"), 3, 1)
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
         self.isJumping = False
@@ -37,8 +37,8 @@ class Player(pygame.sprite.Sprite):
     def update(self, gravity, isDead=None):
         self.count_frame += 1
         ### Animation ###
-        if self.count_frame % 7 == 0:
-            if self.cur_frame + 1 == 2:
+        if self.count_frame % 5 == 0:
+            if self.cur_frame + 1 == 4:
                 self.cur_frame = 0
             else:
                 self.cur_frame += 1
@@ -65,7 +65,7 @@ class Player(pygame.sprite.Sprite):
 
         ### Ducking ###
         if self.isDucking:
-            self.image = self.frames_ducking[self.cur_frame]
+            self.image = self.frames_ducking[self.cur_frame-1]
         else:
             self.image = self.frames[self.cur_frame]
 
@@ -96,7 +96,7 @@ class Cloud(pygame.sprite.Sprite):
 
     def update(self, speed):
         self.rect.x -= speed
-        if self.rect.x < -50:
+        if self.rect.x < -100:
             self.kill()
 
 
@@ -125,13 +125,35 @@ class Cactus(pygame.sprite.Sprite):
             self.kill()
 
 
+class Ptera(pygame.sprite.Sprite):
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.frames = cut_sheet(load_image("ptera.png"), 2, 1)
+        self.cur_frame = 0
+        self.image = self.frames[self.cur_frame]
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 800, 190
+        self.count_frames = 0
+
+    def update(self, speed):
+        self.count_frames += 1
+        if self.count_frames % 10 == 0:
+            self.cur_frame += 1
+            if self.cur_frame == 2:
+                self.cur_frame = 0
+        self.image = self.frames[self.cur_frame]
+        self.rect.x -= speed
+        if self.rect.x < -50:
+            self.kill()
+
+
 class ReplayButton(pygame.sprite.Sprite):
-    image = load_image("replay_button.png")
+    image = load_image("start_btn.png")
 
     def __init__(self, *group):
         super().__init__(*group)
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = 381, 250
+        self.rect.x, self.rect.y = 360, 259
 
 
 class GameOver(pygame.sprite.Sprite):
@@ -149,7 +171,7 @@ class MainMenuButton(pygame.sprite.Sprite):
     def __init__(self, *group):
         super().__init__(*group)
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = 380, 300
+        self.rect.x, self.rect.y = 380, 330
 
 
 class Coin(pygame.sprite.Sprite):
@@ -177,3 +199,91 @@ class Coin(pygame.sprite.Sprite):
             self.rect.x -= speed
         if self.rect.x < -50:
             self.kill()
+
+
+class LeaderbjardsBtn(pygame.sprite.Sprite):
+    image = load_image("leaderboards_btn.png")
+
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 322, 260
+
+
+class SkinsBtn(pygame.sprite.Sprite):
+    image = load_image("skins_btn.png")
+
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 322, 220
+
+
+class Logo(pygame.sprite.Sprite):
+    image = load_image("logo.png")
+
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 190, 70
+
+
+class Tip(pygame.sprite.Sprite):
+    image = load_image("tip.png")
+
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 230, 350
+
+
+class EmptyBtn(pygame.sprite.Sprite):
+    image = load_image("empty_btn.png")
+
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 322, 180
+
+
+class CoinsLabel(pygame.sprite.Sprite):
+    image = load_image("coins_label.png")
+
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 670, 20
+
+
+class ShopItems(pygame.sprite.Sprite):
+    image = load_image("shop_blue.png")
+
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 116, 90
+
+
+class Price(pygame.sprite.Sprite):
+    image = load_image("shop_price.png")
+
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.rect = self.image.get_rect()
+
+
+class Locker(pygame.sprite.Sprite):
+    image = load_image("shop_locker.png")
+
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.rect = self.image.get_rect()
+
+
+class LeaderboardsLabel(pygame.sprite.Sprite):
+    image = load_image("leaderboards_label.png")
+
+    def __init__(self, *group):
+        super().__init__(*group)
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = 0, 0
