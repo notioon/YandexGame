@@ -23,7 +23,7 @@ K_SCORE = 1
 GRAVITY = 8
 BACKGROUND_COLOR = "#100821"
 CURRENT_NICKNAME = '  Nickname'
-CURRENT_SKIN = "red"
+CURRENT_SKIN = "green"
 
 
 def main():
